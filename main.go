@@ -18,7 +18,10 @@ type EmailRequest struct {
 
 func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 	var req EmailRequest
-	json.NewDecoder(r.Body).Decode(&req)
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 
 	godotenv.Load()
 	from := os.Getenv("SENDER")
@@ -30,7 +33,11 @@ func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
-	smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{req.To}, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{req.To}, message)
+	if err != nil {
+		http.Error(w, "fail to send email", http.StatusInternalServerError)
+		return
+	}
 }
 
 func main() {
