@@ -10,4 +10,3 @@ services:
       PASSWORD: ${PASSWORD}
       SMTPHOST: ${SMTPHOST}
     restart: on-failure
-      
