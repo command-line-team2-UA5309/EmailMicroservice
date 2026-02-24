@@ -8,10 +8,21 @@
 
 ## Quick setup
 
-```bash
+* Clone git repo with service and change directory
 
+```bash
 git clone https://github.com/command-line-team2-UA5309/EmailMicroservice.git
 cd EmailMicroservice
+```
+
+* Copy .env form .env.example
+
+```bash
 cp .env.example .env #add you env variables
-docker-compose up docker-compose up --build email-service
+```
+
+* Run container using docker compose
+
+```bash
+docker-compose up --build email-service
 ```

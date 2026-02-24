@@ -3,11 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/smtp"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 type EmailRequest struct {
@@ -19,11 +18,11 @@ type EmailRequest struct {
 func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 	var req EmailRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Println(err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	godotenv.Load()
 	from := os.Getenv("SENDER")
 	password := os.Getenv("PASSWORD")
 	smtpHost := os.Getenv("SMTPHOST")
@@ -35,6 +34,7 @@ func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{req.To}, message)
 	if err != nil {
+		log.Println(err)
 		http.Error(w, "fail to send email", http.StatusInternalServerError)
 		return
 	}
