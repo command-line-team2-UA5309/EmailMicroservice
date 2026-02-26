@@ -9,6 +9,7 @@ import (
 	"os"
 )
 
+// EmailRequest represents a request to send an email.
 type EmailRequest struct {
 	To      string `json:"to"`
 	Subject string `json:"subject"`
