@@ -1,8 +1,10 @@
 linters-settings:
   errcheck:
     check-type-assertions: true
-    check-blank: true  govet:
-    check-shadowing: truelinters:
+    check-blank: true 
+    govet: true
+    check-shadowing: true
+    linters:
   enable:
     - govet
     - errcheck
@@ -12,4 +14,3 @@ linters-settings:
     - deadcoderun:
   timeout: 5m
   issues-exit-code: 1
-  
