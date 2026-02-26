@@ -1,0 +1,11 @@
+services:
+  email-service:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SENDER: ${SENDER}
+      PASSWORD: ${PASSWORD}
+      SMTPHOST: ${SMTPHOST}
+    restart: on-failure
