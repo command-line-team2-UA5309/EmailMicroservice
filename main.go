@@ -10,9 +10,9 @@ import (
 )
 
 type EmailRequest struct {
-	To      string `json:"to"`
-	Subject string `json:"subject"`
-	Body    string `json:"body"`
+	To      []string `json:"to"`
+	Subject string   `json:"subject"`
+	Body    string   `json:"body"`
 }
 
 func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func sendEmailHandler(w http.ResponseWriter, r *http.Request) {
 
 	auth := smtp.PlainAuth("", from, password, smtpHost)
 
-	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{req.To}, message)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, req.To, message)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, "fail to send email", http.StatusInternalServerError)
